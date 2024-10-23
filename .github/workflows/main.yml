@@ -1,10 +1,10 @@
-name: Wails build
+name: Wails build 
 
 on:
   push:
     branches:
-    - main
-    - release/*
+      - main
+      - release/*
 
 env:
   # Necessary for most environments as build failure can occur due to OOM issues
@@ -13,7 +13,7 @@ env:
 jobs:
   build:
     strategy:
-    # Failure in one platform build won't impact the others
+      # Failure in one platform build won't impact the others
       fail-fast: false
       matrix:
         build:
@@ -42,3 +42,13 @@ jobs:
           build-platform: ${{ matrix.build.platform }}
           package: false
           go-version: '1.20'
+
+      - name: List Files
+        run: ls -la bin/  # 列出 bin 目录中的文件以确认构建结果
+
+      - name: Upload Artifacts
+        if: success()  # 确保只有在成功时上传
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.build.name }}-${{ matrix.build.platform }}  # 自定义 artifact 名称
+          path: bin/your_app_name  # 替换为实际的构建输出文件名，例如 bin/your_app_name
