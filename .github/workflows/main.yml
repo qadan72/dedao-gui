@@ -48,7 +48,7 @@ jobs:
 
       - name: Upload Artifacts
         if: success()  # 确保只有在成功时上传
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # 更新为 v3
         with:
           name: ${{ matrix.build.name }}-${{ matrix.build.platform }}  # 自定义 artifact 名称
           path: bin/your_app_name  # 替换为实际的构建输出文件名，例如 bin/your_app_name
